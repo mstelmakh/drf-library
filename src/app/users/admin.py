@@ -1,25 +1,21 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .models import CustomUser, Role
-
-
-admin.site.register(Role)
+from .models import CustomUser
 
 
 class CustomUserAdmin(UserAdmin):
     model = CustomUser
     fieldsets = UserAdmin.fieldsets + (
         (
-            "Roles",
+            ("Roles"),
             {
                 "fields": (
-                    "roles",
+                    "role",
                 ),
-            },
+            }
         ),
     )
-    filter_horizontal = UserAdmin.filter_horizontal + ('roles',)
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
