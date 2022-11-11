@@ -5,6 +5,8 @@
 - Sending emails using Celery
 - Search using elasticsearch
 
+- Seed database using django command
+
 ### Library
 - Two roles: user and librarian
 - User can make/cancel book reservation
