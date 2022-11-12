@@ -1,9 +1,17 @@
 from django.contrib import admin
-from .models import Author, Genre, Language, Book, BookInstance
+from .models import (
+    Author,
+    Genre,
+    Language,
+    Book,
+    BookInstance,
+    BookReservation
+)
 
 
 admin.site.register(Genre)
 admin.site.register(Language)
+admin.site.register(BookReservation)
 
 
 class BooksInstanceInline(admin.TabularInline):
@@ -30,14 +38,14 @@ class AuthorAdmin(admin.ModelAdmin):
 
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
-    list_display = ('book', 'status', 'borrower', 'due_back')
-    list_filter = ('status', 'due_back')
+    list_display = ('book', 'status', )
+    list_filter = ('status', )
 
     fieldsets = (
         (None, {
             'fields': ('book', 'id')
         }),
         ('Availability', {
-            'fields': ('status', 'due_back', 'borrower')
+            'fields': ('status', )
         }),
     )

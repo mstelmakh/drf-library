@@ -73,33 +73,42 @@ class BookInstance(models.Model):
     """
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
-    due_back = models.DateField(null=True, blank=True)
+
+    class LoanStatus(models.TextChoices):
+        MAINTENANCE = 'm', 'Maintenance'
+        AVAILABLE = 'a', 'Available'
+        RESERVED = 'r', 'Reserved'
+        ON_LOAN = 'o', 'On loan'
+
+    status = models.CharField(
+        max_length=1,
+        choices=LoanStatus.choices,
+        default=LoanStatus.MAINTENANCE
+    )
+
+    def __str__(self):
+        return f"{self.id}, {self.book.title}"
+
+
+class BookReservation(models.Model):
+    book_instance = models.ForeignKey(
+        BookInstance,
+        on_delete=models.SET_NULL,
+        null=True
+    )
     borrower = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.SET_NULL,
         null=True,
-        blank=True
     )
+    reserved_at = models.DateTimeField(auto_now_add=True)
+    borrowed_at = models.DateTimeField(null=True, blank=True)
+    returned_at = models.DateTimeField(null=True, blank=True)
 
-    LOAN_STATUS = (
-        ('m', 'Maintenance'),
-        ('a', 'Available'),
-        ('r', 'Reserved'),
-        ('o', 'On loan'),
-    )
+    due_back = models.DateTimeField(null=True, blank=True)
 
     @property
     def is_overdue(self):
         if self.due_back and date.today() > self.due_back:
             return True
         return False
-
-    status = models.CharField(
-        max_length=1,
-        choices=LOAN_STATUS,
-        blank=True,
-        default='m'
-    )
-
-    def __str__(self):
-        return f"{self.id}, {self.book.title}"
