@@ -8,6 +8,8 @@ from rest_framework_simplejwt.views import (
 from authentication.views import RegisterView
 
 
+app_name = 'authentication'
+
 urlpatterns = [
     path(
         'token/', TokenObtainPairView.as_view(), name='token_obtain_pair'
