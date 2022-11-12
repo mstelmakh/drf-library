@@ -5,7 +5,8 @@ from library.models import (
     Genre,
     Author,
     Book,
-    BookInstance
+    BookInstance,
+    BookReservation
 )
 
 
@@ -52,33 +53,41 @@ class BookSerializer(serializers.ModelSerializer):
         read_only_fields = ('id', )
 
 
-class BaseBookInstanceSerializer(serializers.ModelSerializer):
+class BookInstanceSerializer(serializers.ModelSerializer):
     status = serializers.CharField(source='get_status_display')
 
     class Meta:
-        abstract = True
-
-
-class BookInstanceSerializer(BaseBookInstanceSerializer):
-    class Meta:
         model = BookInstance
         fields = (
             'id',
             'book',
-            'due_back',
             'status',
         )
         read_only_fields = ('id', )
 
 
-class BookInstanceLibrarianSerializer(BaseBookInstanceSerializer):
+class BookReservationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = BookInstance
+        model = BookReservation
         fields = (
             'id',
-            'book',
-            'borrower',
+            'book_instance',
             'due_back',
-            'status',
+            'reserved_at',
+            'borrowed_at',
+            'returned_at',
+            'is_overdue',
         )
-        read_only_fields = ('id', )
+        read_only_fields = (
+            'id',
+            'reserved_at',
+            'borrowed_at',
+            'returned_at',
+            'is_overdue',
+        )
+
+
+class ExtendBorrowDateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BookReservation
+        fields = ('due_back', )
