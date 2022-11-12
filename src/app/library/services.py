@@ -50,7 +50,9 @@ def reserve_book(
 
 
 def cancel_reservation(reservation_id: int):
-    reservation = BookReservation.objects.get(pk=reservation_id)
+    reservation = BookReservation.objects \
+                 .select_related("book_instance") \
+                 .get(id=reservation_id)
     book_instance = reservation.book_instance
     if (
         not book_instance.status == BookInstance.LoanStatus.RESERVED
@@ -66,10 +68,10 @@ def cancel_reservation(reservation_id: int):
 
 
 def mark_borrowed(reservation_id: int, until_date: str):
-    reservation = BookReservation.objects.get(pk=reservation_id)
+    reservation = BookReservation.objects \
+                 .select_related("book_instance") \
+                 .get(id=reservation_id)
     book_instance = reservation.book_instance
-    print(until_date)
-    print(datetime.datetime.now())
     if until_date < str(datetime.datetime.now()):
         raise ValidationError("Due back date can't be in the past.")
     if (
@@ -87,7 +89,9 @@ def mark_borrowed(reservation_id: int, until_date: str):
 
 
 def mark_returned(reservation_id: int):
-    reservation = BookReservation.objects.get(pk=reservation_id)
+    reservation = BookReservation.objects \
+                 .select_related("book_instance") \
+                 .get(id=reservation_id)
     book_instance = reservation.book_instance
     if (
         not book_instance.status == BookInstance.LoanStatus.ON_LOAN
@@ -104,7 +108,9 @@ def mark_returned(reservation_id: int):
 
 
 def renew_reservation(reservation_id: int, until_date: str):
-    reservation = BookReservation.objects.get(pk=reservation_id)
+    reservation = BookReservation.objects \
+                 .select_related("book_instance") \
+                 .get(id=reservation_id)
     book_instance = reservation.book_instance
     if until_date < str(datetime.datetime.now()):
         raise ValidationError("Due back date can't be in the past.")
