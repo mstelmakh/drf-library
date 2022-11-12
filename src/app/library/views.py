@@ -1,14 +1,28 @@
-from uuid import uuid4
-from rest_framework import viewsets, views
+from rest_framework import (
+    viewsets,
+    views,
+    status
+)
+from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser
 
-from library.permissions import IsAdminOrReadOnly, IsLibrarian, IsUser
+
+from library.permissions import (
+    IsAdminOrReadOnly,
+    IsLibrarian,
+    IsNotDeleteMethod,
+    IsUser,
+    IsReserveeOrBorrower,
+    IsNotUpdateMethod
+)
 
 from library.models import (
     Genre,
     Language,
     Author,
     Book,
-    BookInstance
+    BookInstance,
+    BookReservation
 )
 
 from library.serializers import (
@@ -17,10 +31,18 @@ from library.serializers import (
     AuthorSerializer,
     BookSerializer,
     BookInstanceSerializer,
-    BookInstanceLibrarianSerializer
+    BookReservationSerializer,
+    ExtendBorrowDateSerializer
 )
 
-from users.services import is_librarian
+from library.services import (
+    get_user_reservations,
+    reserve_book,
+    cancel_reservation,
+    mark_borrowed,
+    mark_returned,
+    renew_reservation
+)
 
 
 class GenreViewSet(viewsets.ModelViewSet):
@@ -52,39 +74,73 @@ class BookInstanceViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAdminOrReadOnly, )
     queryset = BookInstance.objects.all()
 
-    def get_serializer_class(self):
-        if is_librarian(self.request.user):
-            return BookInstanceLibrarianSerializer
-        else:
-            return BookInstanceSerializer
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    serializer_class = BookReservationSerializer
+    # User can list/retrieve/create reservation.
+    # Admin user can do anything on reservation object.
+    permission_classes = (
+        (IsUser & IsNotUpdateMethod & IsNotDeleteMethod) | IsAdminUser,
+    )
+    queryset = BookReservation.objects.all()
+
+    def get_queryset(self):
+        return get_user_reservations(self.request.user)
+
+    def create(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        reserve_book(
+            user=request.user,
+            book_instance_id=self.request.data["book_instance"],
+            due_back=self.request.data['due_back']
+        )
+        print(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
-class ReserveBookView(views.APIView):
-    permission_classes = (IsUser, )
+class CancelReservationView(views.APIView):
+    # Only reservee or admin can candel reservation.
+    permission_classes = ((IsUser & IsReserveeOrBorrower) | IsAdminUser, )
 
     def post(self, request, format=None, **kwargs):
-        book_instance_id: uuid4 = self.kwargs.get("id")
-        user_id: int = request.user.id
-        print(f"{book_instance_id=}, {user_id=}")
-        # reserve_book(book_id, user_id)
+        reservation_id: int = self.kwargs.get("id")
+        self.check_object_permissions(
+            request,
+            BookReservation.objects.get(pk=reservation_id)
+        )
+        cancel_reservation(reservation_id)
+        return Response(status=status.HTTP_200_OK)
 
 
-class CancelBookReservationView(views.APIView):
-    permission_classes = (IsUser, )
+class MarkBorrowedView(views.APIView):
+    serializer_class = ExtendBorrowDateSerializer
+    permission_classes = (IsLibrarian | IsAdminUser, )
 
-    def post(self, request, format=None):
-        pass
+    def post(self, request, format=None, **kwargs):
+        reservation_id: int = self.kwargs.get("id")
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        mark_borrowed(reservation_id, self.request.data['due_back'])
+        return Response(status=status.HTTP_200_OK)
 
 
-class UpdateBookStatusView(views.APIView):
-    permission_classes = (IsLibrarian, )
+class MarkReturnedView(views.APIView):
+    permission_classes = (IsLibrarian | IsAdminUser, )
 
-    def post(self, request, format=None):
-        pass
+    def post(self, request, format=None, **kwargs):
+        reservation_id: int = self.kwargs.get("id")
+        mark_returned(reservation_id)
+        return Response(status=status.HTTP_200_OK)
 
 
 class RenewBookView(views.APIView):
-    permission_classes = (IsLibrarian, )
+    serializer_class = ExtendBorrowDateSerializer
+    permission_classes = (IsLibrarian | IsAdminUser, )
 
-    def post(self, request, format=None):
-        pass
+    def post(self, request, format=None, **kwargs):
+        reservation_id: int = self.kwargs.get("id")
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        renew_reservation(reservation_id, self.request.data['due_back'])
+        return Response(status=status.HTTP_200_OK)
