@@ -6,12 +6,10 @@ from rest_framework import (
 from rest_framework.response import Response
 from rest_framework.permissions import IsAdminUser
 
-
+from users.permissions import IsLibrarian, IsUser
 from library.permissions import (
     IsAdminOrReadOnly,
-    IsLibrarian,
     IsNotDeleteMethod,
-    IsUser,
     IsReserveeOrBorrower,
     IsNotUpdateMethod
 )
