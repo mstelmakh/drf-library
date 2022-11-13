@@ -1,5 +1,5 @@
-from uuid import uuid4
-import datetime
+from uuid import UUID
+from django.utils import timezone
 
 from library.models import BookInstance, BookReservation
 
@@ -8,15 +8,13 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 
-class InvalidBookStatus(Exception):
+class InvalidBookStatusError(Exception):
     pass
 
 
 User = get_user_model()
 
-RESERVE_TIME_DAYS = 2
-BORROW_TIME_DAYS = 31
-RENEW_TIME_DAYS = 7
+MAX_RESERVE_TIME_DAYS = 2
 
 
 def get_user_reservations(user: User):
@@ -25,22 +23,25 @@ def get_user_reservations(user: User):
 
 def reserve_book(
     user: User,
-    book_instance_id: uuid4,
+    book_instance_id: UUID,
     due_back: str
 ) -> BookReservation:
     book_instance = BookInstance.objects.get(pk=book_instance_id)
     if not book_instance.status == BookInstance.LoanStatus.AVAILABLE:
-        raise InvalidBookStatus()
-    if due_back > str(datetime.datetime.now() + datetime.timedelta(days=2)):
-        raise ValidationError("Reservation can be valid for max. 2 days.")
+        raise InvalidBookStatusError()
+    if due_back < str(timezone.now()):
+        raise ValidationError("Due back date can't be in the past.")
+    if due_back > str(
+        timezone.now()
+        + timezone.timedelta(days=MAX_RESERVE_TIME_DAYS)
+    ):
+        raise ValidationError(
+            f"Reservation can be valid for max. {MAX_RESERVE_TIME_DAYS} days."
+        )
     with transaction.atomic():
         book_instance.status = BookInstance.LoanStatus.RESERVED
         book_instance.save()
 
-        due_back = (
-            datetime.datetime.now() +
-            datetime.timedelta(days=RESERVE_TIME_DAYS)
-        )
         book_reservation = BookReservation.objects.create(
             book_instance=book_instance,
             borrower=user,
@@ -49,76 +50,79 @@ def reserve_book(
         return book_reservation
 
 
-def cancel_reservation(reservation_id: int):
+def cancel_reservation(reservation_id: int) -> BookReservation:
     reservation = BookReservation.objects \
                  .select_related("book_instance") \
                  .get(id=reservation_id)
     book_instance = reservation.book_instance
-    if (
-        not book_instance.status == BookInstance.LoanStatus.RESERVED
-        or not reservation.due_back
-    ):
-        raise InvalidBookStatus()
+    if not reservation.due_back:
+        raise ValidationError("Wrong reservation id.")
+    if not book_instance.status == BookInstance.LoanStatus.RESERVED:
+        raise InvalidBookStatusError()
     with transaction.atomic():
         book_instance.status = BookInstance.LoanStatus.AVAILABLE
         book_instance.save()
 
         reservation.due_back = None
         reservation.save()
+        return reservation
 
 
-def mark_borrowed(reservation_id: int, until_date: str):
+def mark_borrowed(reservation_id: int, until_date: str) -> BookReservation:
     reservation = BookReservation.objects \
                  .select_related("book_instance") \
                  .get(id=reservation_id)
     book_instance = reservation.book_instance
-    if until_date < str(datetime.datetime.now()):
+    if until_date < str(timezone.now()):
         raise ValidationError("Due back date can't be in the past.")
-    if (
-        not book_instance.status == BookInstance.LoanStatus.RESERVED
-        or not reservation.due_back
-    ):
-        raise InvalidBookStatus()
+    if not reservation.due_back:
+        raise ValidationError("Wrong reservation id.")
+    if not book_instance.status == BookInstance.LoanStatus.RESERVED:
+        raise InvalidBookStatusError()
     with transaction.atomic():
         book_instance.status = BookInstance.LoanStatus.ON_LOAN
         book_instance.save()
 
-        reservation.borrowed_at = datetime.datetime.now()
+        reservation.borrowed_at = timezone.now()
         reservation.due_back = until_date
         reservation.save()
+        return reservation
 
 
-def mark_returned(reservation_id: int):
+def mark_returned(reservation_id: int) -> BookReservation:
     reservation = BookReservation.objects \
                  .select_related("book_instance") \
                  .get(id=reservation_id)
     book_instance = reservation.book_instance
-    if (
-        not book_instance.status == BookInstance.LoanStatus.ON_LOAN
-        or not reservation.due_back
-    ):
-        raise InvalidBookStatus()
+    if not reservation.due_back:
+        raise ValidationError("Wrong reservation id.")
+    if not book_instance.status == BookInstance.LoanStatus.ON_LOAN:
+        raise InvalidBookStatusError()
     with transaction.atomic():
         book_instance.status = BookInstance.LoanStatus.AVAILABLE
         book_instance.save()
 
-        reservation.returned_at = datetime.datetime.now()
+        reservation.returned_at = timezone.now()
         reservation.due_back = None
         reservation.save()
+        return reservation
 
 
-def renew_reservation(reservation_id: int, until_date: str):
+def renew_reservation(reservation_id: int, until_date: str) -> BookReservation:
     reservation = BookReservation.objects \
                  .select_related("book_instance") \
                  .get(id=reservation_id)
     book_instance = reservation.book_instance
-    if until_date < str(datetime.datetime.now()):
+    if until_date < str(timezone.now()):
         raise ValidationError("Due back date can't be in the past.")
-    if (
-        not book_instance.status == BookInstance.LoanStatus.ON_LOAN
-        or not reservation.due_back
+    if not reservation.due_back:
+        raise ValidationError("Wrong reservation id.")
+    if not book_instance.status in (
+        BookInstance.LoanStatus.ON_LOAN,
+        BookInstance.LoanStatus.RESERVED
     ):
-        raise InvalidBookStatus()
+        raise InvalidBookStatusError()
 
     reservation.due_back = until_date
     reservation.save()
+    return reservation

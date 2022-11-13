@@ -1,8 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 import uuid
-from datetime import date
 
 from isbn_field import ISBNField
 
@@ -109,6 +109,6 @@ class BookReservation(models.Model):
 
     @property
     def is_overdue(self):
-        if self.due_back and date.today() > self.due_back:
+        if self.due_back and timezone.now() > self.due_back:
             return True
         return False
