@@ -22,7 +22,7 @@ urlpatterns = [
     path(
         'reservation/<int:id>/cancel/',
         views.CancelReservationView.as_view(),
-        name='cancel-reservation'
+        name='bookreservation-cancel'
     ),
     path(
         'reservation/<int:id>/mark_borrowed/',
@@ -37,6 +37,6 @@ urlpatterns = [
     path(
         'reservation/<int:id>/renew/',
         views.RenewBookView.as_view(),
-        name='renew-reservation'
+        name='bookreservation-renew'
     ),
 ]
