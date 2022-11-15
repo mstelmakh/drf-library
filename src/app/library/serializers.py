@@ -54,7 +54,7 @@ class BookSerializer(serializers.ModelSerializer):
 
 
 class BookInstanceSerializer(serializers.ModelSerializer):
-    status = serializers.CharField(source='get_status_display')
+    status = serializers.ReadOnlyField(source='get_status_display')
 
     class Meta:
         model = BookInstance
