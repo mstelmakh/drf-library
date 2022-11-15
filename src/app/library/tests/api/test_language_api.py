@@ -133,9 +133,6 @@ class AdminLanguageAPITest(TestCase):
         response = self.client.post(LANGUAGE_LIST_URL, data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(
-            Language.objects.filter(name__exact=data["name"]).exists()
-        )
 
     def test_update_language(self):
         data = {"name": "spanish"}

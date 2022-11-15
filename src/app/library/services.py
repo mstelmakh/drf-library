@@ -117,7 +117,7 @@ def renew_reservation(reservation_id: int, until_date: str) -> BookReservation:
         raise ValidationError("Due back date can't be in the past.")
     if not reservation.due_back:
         raise ValidationError("Wrong reservation id.")
-    if not book_instance.status in (
+    if book_instance.status not in (
         BookInstance.LoanStatus.ON_LOAN,
         BookInstance.LoanStatus.RESERVED
     ):

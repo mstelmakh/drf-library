@@ -93,12 +93,11 @@ class ReservationViewSet(viewsets.ModelViewSet):
             book_instance_id=self.request.data["book_instance"],
             due_back=self.request.data['due_back']
         )
-        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class CancelReservationView(views.APIView):
-    # Only reservee or admin can candel reservation.
+    # Only reservee or admin can cancel reservation.
     permission_classes = ((IsUser & IsReserveeOrBorrower) | IsAdminUser, )
 
     def post(self, request, format=None, **kwargs):

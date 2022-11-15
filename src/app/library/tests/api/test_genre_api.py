@@ -133,9 +133,6 @@ class AdminGenreAPITest(TestCase):
         response = self.client.post(GENRE_LIST_URL, data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(
-            Genre.objects.filter(name__exact=data["name"]).exists()
-        )
 
     def test_update_genre(self):
         data = {"name": "fantasy"}

@@ -6,7 +6,7 @@ UPDATE_METHODS = ("PUT", "PATCH")
 
 class IsNotUpdateMethod(BasePermission):
     """
-    Allows any method except PUT or PATH.
+    Allows any method except PUT or PATCH.
     """
     def has_permission(self, request, view):
         return bool(

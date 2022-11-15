@@ -206,9 +206,6 @@ class AdminAuthorAPITest(TestCase):
         response = self.client.post(AUTHOR_LIST_URL, data)
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertTrue(
-            Author.objects.filter(last_name__exact=data["last_name"]).exists()
-        )
 
     def test_update_author(self):
         date_of_birth = get_formatted_date("1989-07-19")
