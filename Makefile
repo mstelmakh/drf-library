@@ -1,9 +1,9 @@
 make_migrations:
-	docker-compose run --rm web sh -c "python manage.py makemigrations bank"
+	docker-compose run --rm web sh -c "python manage.py makemigrations $(app)"
 migrate:
 	docker-compose run --rm web sh -c "python manage.py migrate"
 test:
-	docker-compose run --rm web sh -c "python manage.py test"
+	docker-compose run --rm web sh -c "python manage.py test $(module)"
 super:
 	docker-compose run --rm web sh -c "python manage.py createsuperuser"
 shell:
