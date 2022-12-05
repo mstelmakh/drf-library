@@ -2,6 +2,7 @@ FROM python:3.10-alpine
 ENV PYTHONUNBUFFERED 1
 
 COPY requirements.txt requirements.txt
+COPY ./resources resources
 COPY ./app /app
 
 RUN apk update \
