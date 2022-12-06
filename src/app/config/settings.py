@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'isbn_field',
 
+    'db_commands.apps.DbCommandsConfig',
     'users.apps.UsersConfig',
     'library.apps.LibraryConfig',
 ]
