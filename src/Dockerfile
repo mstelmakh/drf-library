@@ -5,7 +5,7 @@ COPY requirements.txt requirements.txt
 COPY ./app /app
 
 RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev
+    && apk add postgresql-dev gcc python3-dev musl-dev redis
 RUN pip3 install -r requirements.txt
 
 # copy entrypoint.sh

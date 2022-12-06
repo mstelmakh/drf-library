@@ -20,23 +20,28 @@ router.register('reservations', views.ReservationViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path(
-        'reservation/<int:id>/cancel/',
+        'reservations/<int:id>/cancel/',
         views.CancelReservationView.as_view(),
         name='bookreservation-cancel'
     ),
     path(
-        'reservation/<int:id>/mark_borrowed/',
+        'reservations/<int:id>/mark_borrowed/',
         views.MarkBorrowedView.as_view(),
         name='mark-borrowed'
     ),
     path(
-        'reservation/<int:id>/mark_returned/',
+        'reservations/<int:id>/mark_returned/',
         views.MarkReturnedView.as_view(),
         name='mark-returned'
     ),
     path(
-        'reservation/<int:id>/renew/',
+        'reservations/<int:id>/renew/',
         views.RenewBookView.as_view(),
         name='bookreservation-renew'
+    ),
+    path(
+        'book_instances/<uuid:id>/subscribe/',
+        views.SubscribeView.as_view(),
+        name='bookinstance-subscribe'
     ),
 ]
