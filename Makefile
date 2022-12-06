@@ -3,7 +3,7 @@ make_migrations:
 migrate:
 	docker-compose run --rm web sh -c "python manage.py migrate"
 elastic_rebuild:
-	docker-compose run --rm web sh -c "python manage.py search_index --rebuild"
+	docker-compose run --rm web sh -c "python manage.py search_index --rebuild -f"
 test:
 	docker-compose run --rm web sh -c "python manage.py test $(module)"
 super:

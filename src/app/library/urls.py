@@ -9,12 +9,12 @@ app_name = "library"
 
 router = DefaultRouter()
 
-router.register('language', views.LanguageViewSet)
-router.register('genre', views.GenreViewSet)
-router.register('author', views.AuthorViewSet)
-router.register('book', views.BookViewSet)
-router.register('book_instance', views.BookInstanceViewSet)
-router.register('reservation', views.ReservationViewSet)
+router.register('languages', views.LanguageViewSet)
+router.register('genres', views.GenreViewSet)
+router.register('authors', views.AuthorViewSet)
+router.register('books', views.BookViewSet)
+router.register('book_instances', views.BookInstanceViewSet)
+router.register('reservations', views.ReservationViewSet)
 
 
 urlpatterns = [
