@@ -263,7 +263,7 @@ class UserReservationAPITest(TestCase):
         serializer = BookReservationSerializer(self.reservations, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_reservation(self):
         response = self.client.get(
@@ -521,7 +521,7 @@ class AdminReservationAPITest(TestCase):
         serializer = BookReservationSerializer(self.reservations, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_reservation(self):
         response = self.client.get(

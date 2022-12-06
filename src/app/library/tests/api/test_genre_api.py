@@ -27,7 +27,7 @@ class PublicGenreAPITest(TestCase):
         serializer = GenreSerializer(self.genres, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_genre(self):
         response = self.client.get(f"{GENRE_LIST_URL}{self.novel.id}/")
@@ -72,7 +72,7 @@ class PrivateGenreAPITest(TestCase):
         serializer = GenreSerializer(self.genres, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_genre(self):
         response = self.client.get(f"{GENRE_LIST_URL}{self.novel.id}/")
@@ -118,7 +118,7 @@ class AdminGenreAPITest(TestCase):
         serializer = GenreSerializer(self.genres, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_genre(self):
         response = self.client.get(f"{GENRE_LIST_URL}{self.novel.id}/")

@@ -27,7 +27,7 @@ class PublicLanguageAPITest(TestCase):
         serializer = LanguageSerializer(self.languages, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_language(self):
         response = self.client.get(f"{LANGUAGE_LIST_URL}{self.english.id}/")
@@ -72,7 +72,7 @@ class PrivateLanguageAPITest(TestCase):
         serializer = LanguageSerializer(self.languages, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_language(self):
         response = self.client.get(f"{LANGUAGE_LIST_URL}{self.english.id}/")
@@ -118,7 +118,7 @@ class AdminLanguageAPITest(TestCase):
         serializer = LanguageSerializer(self.languages, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_language(self):
         response = self.client.get(f"{LANGUAGE_LIST_URL}{self.english.id}/")

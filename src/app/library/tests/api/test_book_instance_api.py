@@ -100,7 +100,7 @@ class PublicBookInstanceAPITest(TestCase):
         serializer = BookInstanceSerializer(self.book_instances, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_book_instance(self):
         response = self.client.get(
@@ -169,7 +169,7 @@ class PrivateBookInstanceAPITest(TestCase):
         serializer = BookInstanceSerializer(self.book_instances, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_book_instance(self):
         response = self.client.get(
@@ -239,7 +239,7 @@ class AdminBookInstanceAPITest(TestCase):
         serializer = BookInstanceSerializer(self.book_instances, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_book_instance(self):
         response = self.client.get(

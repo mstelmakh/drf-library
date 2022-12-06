@@ -46,7 +46,7 @@ class PublicAuthorAPITest(TestCase):
         serializer = AuthorSerializer(self.authors, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_author(self):
         response = self.client.get(f"{AUTHOR_LIST_URL}{self.author.id}/")
@@ -115,7 +115,7 @@ class PrivateAuthorAPITest(TestCase):
         serializer = AuthorSerializer(self.authors, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_author(self):
         response = self.client.get(f"{AUTHOR_LIST_URL}{self.author.id}/")
@@ -185,7 +185,7 @@ class AdminAuthorAPITest(TestCase):
         serializer = AuthorSerializer(self.authors, many=True)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data, serializer.data)
+        self.assertEqual(response.data["results"], serializer.data)
 
     def test_retrieve_author(self):
         response = self.client.get(f"{AUTHOR_LIST_URL}{self.author.id}/")
