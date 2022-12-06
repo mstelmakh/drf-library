@@ -1,0 +1,30 @@
+[
+    {
+        "model": "library.language",
+        "pk": 1,
+        "fields": {
+            "name": "English"
+        }
+    },
+    {
+        "model": "library.language",
+        "pk": 2,
+        "fields": {
+            "name": "French"
+        }
+    },
+    {
+        "model": "library.language",
+        "pk": 3,
+        "fields": {
+            "name": "Russian"
+        }
+    },
+    {
+        "model": "library.language",
+        "pk": 4,
+        "fields": {
+            "name": "Spanish"
+        }
+    }
+]

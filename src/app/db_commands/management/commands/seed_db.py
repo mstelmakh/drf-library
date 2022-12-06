@@ -1,23 +1,27 @@
-from db_commands.services import seed_db
+from django.core.management import call_command
 
 from django.core.management.base import BaseCommand
+from django.db import transaction
+
+
+FIXTURES = (
+    "db_genre_fixture.json",
+    "db_language_fixture.json",
+    "db_author_fixture.json",
+    "db_book_fixture.json",
+    "db_book_instance_fixture.json",
+)
 
 
 class Command(BaseCommand):
-    """
-    Django CLI command used to seed database from local JSON file.
-    Args:
-        f: Path to json file (optional).
-    """
-    help = "Seed database from local JSON file."
-
-    def add_arguments(self, parser) -> None:
-        parser.add_argument(
-            '--f', type=str, help="Path to directory with json files. (default: resources)"
-        )
+    help = "Seed database from fixtures."
 
     def handle(self, *args, **options):
-        path = None
         self.stdout.write('Seeding database...')
-        seed_db(path) if path else seed_db()
+        call_command("makemigrations")
+        call_command("migrate")
+
+        with transaction.atomic():
+            for fixture in FIXTURES:
+                call_command("loaddata", fixture)
         self.stdout.write(self.style.SUCCESS('Done'))

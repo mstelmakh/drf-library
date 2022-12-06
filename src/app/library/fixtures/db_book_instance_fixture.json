@@ -1,0 +1,130 @@
+[
+    {
+        "model": "library.bookinstance",
+        "pk": "005d4ddb-5bfc-40db-bada-db302c42bc92",
+        "fields": {
+            "book": 4,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "060f79ae-240b-42d6-9e09-1035593680a2",
+        "fields": {
+            "book": 3,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "0c34373e-e891-46d1-90ae-8532dafddc08",
+        "fields": {
+            "book": 5,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "13694153-da0e-4685-b920-fc0cc19aff09",
+        "fields": {
+            "book": 1,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "35394b2c-f99c-4be5-86a3-373036812caa",
+        "fields": {
+            "book": 1,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "3a98ccfe-9a45-4cbf-8db7-be2c52b3d892",
+        "fields": {
+            "book": 3,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "57aed422-f7ec-4085-a2bd-01e6348126db",
+        "fields": {
+            "book": 6,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "86ce4fc8-9254-46c5-9cc8-55adbfce5062",
+        "fields": {
+            "book": 2,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "95d8d504-3d59-4756-9167-0ab31b4a7054",
+        "fields": {
+            "book": 1,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "adbdec60-3ff2-486d-8839-010ef123377e",
+        "fields": {
+            "book": 5,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "ade342e8-d01e-47e8-a9ee-51a3918331b5",
+        "fields": {
+            "book": 7,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "ae2cb0cf-07d1-42db-a126-a1e94e95911c",
+        "fields": {
+            "book": 3,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "b1f0f072-9950-4126-9091-53b62dd8fe0f",
+        "fields": {
+            "book": 6,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "d74bc687-6630-4c24-8e24-bd56579f0046",
+        "fields": {
+            "book": 5,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "e00da3ed-21e2-4416-9842-040fda95c599",
+        "fields": {
+            "book": 5,
+            "status": "m"
+        }
+    },
+    {
+        "model": "library.bookinstance",
+        "pk": "feb4fe1e-126d-4273-bb8a-8e882529fb82",
+        "fields": {
+            "book": 2,
+            "status": "m"
+        }
+    }
+]

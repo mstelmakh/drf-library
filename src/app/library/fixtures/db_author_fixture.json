@@ -1,0 +1,52 @@
+[
+    {
+        "model": "library.author",
+        "pk": 1,
+        "fields": {
+            "first_name": "William",
+            "last_name": "Shakespeare",
+            "date_of_birth": "1564-04-26",
+            "date_of_death": "1616-04-23"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 2,
+        "fields": {
+            "first_name": "Joanne",
+            "last_name": "Rowling",
+            "date_of_birth": "1965-07-31",
+            "date_of_death": null
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 3,
+        "fields": {
+            "first_name": "Leo",
+            "last_name": "Tolstoy",
+            "date_of_birth": "1828-09-09",
+            "date_of_death": "1910-11-20"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 4,
+        "fields": {
+            "first_name": "Cor\u00edn",
+            "last_name": "Tellado",
+            "date_of_birth": "1927-04-25",
+            "date_of_death": "2009-04-11"
+        }
+    },
+    {
+        "model": "library.author",
+        "pk": 5,
+        "fields": {
+            "first_name": "Ren\u00e9",
+            "last_name": "Goscinny",
+            "date_of_birth": "1926-08-14",
+            "date_of_death": "1977-11-05"
+        }
+    }
+]

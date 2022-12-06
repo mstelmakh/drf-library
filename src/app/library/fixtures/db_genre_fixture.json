@@ -1,0 +1,37 @@
+[
+    {
+        "model": "library.genre",
+        "pk": 1,
+        "fields": {
+            "name": "Novel"
+        }
+    },
+    {
+        "model": "library.genre",
+        "pk": 2,
+        "fields": {
+            "name": "Fantasy"
+        }
+    },
+    {
+        "model": "library.genre",
+        "pk": 3,
+        "fields": {
+            "name": "Science Fiction"
+        }
+    },
+    {
+        "model": "library.genre",
+        "pk": 4,
+        "fields": {
+            "name": "Romance"
+        }
+    },
+    {
+        "model": "library.genre",
+        "pk": 5,
+        "fields": {
+            "name": "Tragedy"
+        }
+    }
+]

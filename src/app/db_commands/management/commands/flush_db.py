@@ -1,6 +1,6 @@
-from db_commands.services import flush_db
-
 from django.core.management.base import BaseCommand
+
+from library.models import Genre, Language, Author, Book, BookInstance
 
 
 class Command(BaseCommand):
@@ -11,5 +11,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write('Flushing database...')
-        flush_db()
+        for model in (Genre, Language, Author, Book, BookInstance):
+            model.objects.all().delete()
         self.stdout.write(self.style.SUCCESS('Done'))

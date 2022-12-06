@@ -1,0 +1,108 @@
+[
+    {
+        "model": "library.book",
+        "pk": 1,
+        "fields": {
+            "title": "Romeo and Juliet",
+            "author": 1,
+            "summary": "Romeo and Juliet is a tragedy written by William Shakespeare early in his career about the romance between two Italian youths from fueding families. It was among Shakespeare's most popular plays during his lifetime and, along with Hamlet, is one of his most frequently performed plays.",
+            "isbn": "9780671509811",
+            "language": 1,
+            "cover": "",
+            "genre": [
+                1,
+                5
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 2,
+        "fields": {
+            "title": "Hamlet",
+            "author": 1,
+            "summary": "The Tragedy of Hamlet, Prince of Denmark, often shortened to Hamlet, is a tragedy written by William Shakespeare sometime between 1599 and 1601. It is Shakespeare's longest play, with 29,551 words.",
+            "isbn": "9780743477123",
+            "language": 1,
+            "cover": "",
+            "genre": [
+                5
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 3,
+        "fields": {
+            "title": "Harry Potter and the Philosopher's Stone",
+            "author": 2,
+            "summary": "Harry Potter, an eleven-year-old orphan, discovers that he is a wizard and is invited to study at Hogwarts. Even as he escapes a dreary life and enters a world of magic, he finds trouble awaiting him.",
+            "isbn": "0747532699",
+            "language": 1,
+            "cover": "",
+            "genre": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 4,
+        "fields": {
+            "title": "Harry Potter and the Chamber of Secrets",
+            "author": 2,
+            "summary": "A house-elf warns Harry against returning to Hogwarts, but he decides to ignore it. When students and creatures at the school begin to get petrified, Harry finds himself surrounded in mystery.",
+            "isbn": "0747538492",
+            "language": 1,
+            "cover": "",
+            "genre": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 5,
+        "fields": {
+            "title": "Harry Potter and the Prisoner of Azkaban",
+            "author": 2,
+            "summary": "Harry, Ron and Hermoine return to Hogwarts just as they learn about Sirius Black and his plans to kill Harry. However, when Harry runs into him, he learns that the truth is far from reality.",
+            "isbn": "0747542155",
+            "language": 1,
+            "cover": "",
+            "genre": [
+                2
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 6,
+        "fields": {
+            "title": "War and Peace",
+            "author": 3,
+            "summary": "War and Peace is a literary work by the Russian author Leo Tolstoy that mixes fictional narrative with chapters on history and philosophy. It was first published serially, then published in its entirety in 1869.",
+            "isbn": "9781400079988",
+            "language": 3,
+            "cover": "",
+            "genre": [
+                1
+            ]
+        }
+    },
+    {
+        "model": "library.book",
+        "pk": 7,
+        "fields": {
+            "title": "Anna Karenina",
+            "author": 3,
+            "summary": "Anna Karenina is a novel by the Russian author Leo Tolstoy, first published in book form in 1878. Widely considered to be one of the greatest works of literature ever written, Tolstoy himself called it his first true novel.",
+            "isbn": "9781847490599",
+            "language": 3,
+            "cover": "",
+            "genre": [
+                1
+            ]
+        }
+    }
+]
