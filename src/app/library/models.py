@@ -86,6 +86,8 @@ class BookInstance(models.Model):
         default=LoanStatus.MAINTENANCE
     )
 
+    subscribers = models.ManyToManyField(settings.AUTH_USER_MODEL)
+
     def __str__(self):
         return f"{self.id}, {self.book.title}"
 
