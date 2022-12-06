@@ -25,6 +25,19 @@ services:
       - discovery.type=single-node
     volumes:
       - elastic_data:/usr/share/elasticsearch/data
+
+  redis:
+    image: "redis:alpine"
+
+  celery:
+    build: ./src
+    command: celery -A config worker -l info
+    volumes:
+      - ./src/app:/app
+    depends_on:
+      - db
+      - redis
+    env_file: .env.example
 volumes:
   postgres_data:
   elastic_data:

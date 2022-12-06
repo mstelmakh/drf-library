@@ -39,8 +39,11 @@ from library.services import (
     cancel_reservation,
     mark_borrowed,
     mark_returned,
-    renew_reservation
+    renew_reservation,
+    subscribe_to_book_instance
 )
+
+# from library.tasks import send_notification_email_task
 
 
 class GenreViewSet(viewsets.ModelViewSet):
@@ -140,4 +143,13 @@ class RenewBookView(views.APIView):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         renew_reservation(reservation_id, self.request.data['due_back'])
+        return Response(status=status.HTTP_200_OK)
+
+
+class SubscribeView(views.APIView):
+    permission_classes = (IsUser, )
+
+    def post(self, request, format=None, **kwargs):
+        book_instance_id: int = self.kwargs.get("id")
+        subscribe_to_book_instance(book_instance_id, request.user)
         return Response(status=status.HTTP_200_OK)

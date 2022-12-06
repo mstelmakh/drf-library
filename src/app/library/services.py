@@ -3,9 +3,12 @@ from django.utils import timezone
 
 from library.models import BookInstance, BookReservation
 
+from django.conf import settings
+
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
+from django.core.mail import send_mail
 
 
 class InvalidBookStatusError(Exception):
@@ -126,3 +129,38 @@ def renew_reservation(reservation_id: int, until_date: str) -> BookReservation:
     reservation.due_back = until_date
     reservation.save()
     return reservation
+
+
+def subscribe_to_book_instance(book_instance_id: UUID, user: User) -> None:
+    if not user.email:
+        raise ValidationError(
+            "Add email address in your account settings."
+        )
+
+    book_instance = BookInstance.objects.get(pk=book_instance_id)
+
+    if user in book_instance.subscribers.all():
+        raise ValidationError(
+            "Already subscribed."
+        )
+
+    book_instance.subscribers.add(user)
+    book_instance.save()
+
+
+def notify_book_instance_subscribers(book_instance_id: UUID) -> None:
+    book_instance = BookInstance.objects.get(pk=book_instance_id)
+
+    send_mail(
+        "Status of book you are following changed!",
+        (
+            "Hello!\n",
+            f"Just want to notify you, that book {book_instance.title} ",
+            "is now available!\n\n",
+            "Best Regards,\n",
+            "DRF Library Management Team"
+        ),
+        settings.EMAIL_HOST_USER,
+        [user.email for user in book_instance.subscribers.all()],
+        fail_silently=False
+    )
