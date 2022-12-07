@@ -14,3 +14,5 @@ class CustomUser(AbstractUser):
         choices=Role.choices,
         default=Role.USER
     )
+
+    email = models.EmailField(unique=True)
