@@ -44,4 +44,9 @@ urlpatterns = [
         views.SubscribeView.as_view(),
         name='bookinstance-subscribe'
     ),
+    path(
+        'book_instances/<uuid:id>/unsubscribe/',
+        views.UnsubscribeView.as_view(),
+        name='bookinstance-unsubscribe'
+    ),
 ]

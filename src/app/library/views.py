@@ -40,7 +40,8 @@ from library.services import (
     mark_borrowed,
     mark_returned,
     renew_reservation,
-    subscribe_to_book_instance
+    subscribe_to_book_instance,
+    unsubscribe_from_book_instance
 )
 
 # from library.tasks import send_notification_email_task
@@ -152,4 +153,13 @@ class SubscribeView(views.APIView):
     def post(self, request, format=None, **kwargs):
         book_instance_id: int = self.kwargs.get("id")
         subscribe_to_book_instance(book_instance_id, request.user)
+        return Response(status=status.HTTP_200_OK)
+
+
+class UnsubscribeView(views.APIView):
+    permission_classes = (IsUser, )
+
+    def post(self, request, format=None, **kwargs):
+        book_instance_id: int = self.kwargs.get("id")
+        unsubscribe_from_book_instance(book_instance_id, request.user)
         return Response(status=status.HTTP_200_OK)
