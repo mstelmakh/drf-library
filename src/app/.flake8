@@ -4,3 +4,4 @@ exclude =
     __pychace__,
     manage.py,
     settings.py,
+    apps.py
