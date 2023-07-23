@@ -10,4 +10,4 @@ urlpatterns = [
     path('account/', include('users.urls')),
     path('catalog/', include('library.urls')),
     path('search/', include('search.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

@@ -16,8 +16,10 @@ djangorestframework-simplejwt==5.2.2
 elasticsearch==7.17.7
 elasticsearch-dsl==7.4.0
 flake8==5.0.4
+gunicorn==21.2.0
 kombu==5.2.4
 mccabe==0.7.0
+packaging==23.1
 Pillow==9.3.0
 prompt-toolkit==3.0.33
 psycopg2==2.9.5

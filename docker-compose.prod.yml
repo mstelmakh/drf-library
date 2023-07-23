@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  web:
+    build: ./src
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/app:/app
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    command: gunicorn config.wsgi --bind 0.0.0.0:8000
+    depends_on:
+      - db
+    env_file: .env.prod
+
+  db:
+    image: postgres:14-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    env_file: .env.prod
+
+  elasticsearch:
+    image: elasticsearch:7.13.0
+    environment:
+      - discovery.type=single-node
+    volumes:
+      - elastic_data:/usr/share/elasticsearch/data
+
+  redis:
+    image: "redis:alpine"
+
+  celery:
+    build: ./src
+    command: celery -A config worker -l info
+    volumes:
+      - ./src/app:/app
+    depends_on:
+      - db
+      - redis
+    env_file: .env.prod
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/vol/web/static
+      - media_volume:/vol/web/media
+    ports:
+      - 80:80
+    depends_on:
+      - web
+volumes:
+  postgres_data:
+  elastic_data:
+  static_volume:
+  media_volume:
